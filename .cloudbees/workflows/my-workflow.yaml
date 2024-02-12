@@ -10,8 +10,22 @@ on:
 jobs:
   build:
     steps:
+      - name: Checkout code
+        uses: cloudbees-io/checkout@v1
+      - name: Git global credentials
+        uses: cloudbees-io/configure-git-global-credentials@v1
       - name: Say hello
-        uses: docker://golang:1.20.3-alpine3.17
+        uses: docker://bash
+        run: |
+          set > .cloudbees/workflows/evidence.txt
+      - name: Push evidence to workflow repo
+        uses: docker://alpine/git:latest
         shell: sh
         run: |
-          echo "hello world"
+          git add .cloudbees/workflows/evidence.txt
+          git config --global user.email "gregorymaxey@yahoo.com"
+          git config --global user.name "Greg Maxey"
+          git commit . -m "some evidence"
+          git remote remove origin
+          git remote add origin https://${{ secrets.GITHUB_TOKEN}}@github.com/gmaxey/evidence
+          git push --set-upstream origin main
