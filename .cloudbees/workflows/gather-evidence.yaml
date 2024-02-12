@@ -14,10 +14,10 @@ jobs:
         uses: cloudbees-io/checkout@v1
       - name: Git global credentials
         uses: cloudbees-io/configure-git-global-credentials@v1
-      - name: Say hello
+      - name: Save evidence file
         uses: docker://bash
         run: |
-          set  > .cloudbees/workflows/evidence.txt
+          set > .cloudbees/workflows/evidence.txt
       - name: Push evidence to workflow repo
         uses: docker://alpine/git:latest
         shell: sh
