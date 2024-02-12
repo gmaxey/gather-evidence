@@ -17,7 +17,7 @@ jobs:
       - name: Say hello
         uses: docker://bash
         run: |
-          set > .cloudbees/workflows/evidence.txt
+          set  > .cloudbees/workflows/evidence.txt
       - name: Push evidence to workflow repo
         uses: docker://alpine/git:latest
         shell: sh
