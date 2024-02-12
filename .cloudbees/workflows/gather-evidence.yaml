@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     steps:
-      - name: Checkout code
+      - name: Checkout workflow repo code
         uses: cloudbees-io/checkout@v1
       - name: Git global credentials
         uses: cloudbees-io/configure-git-global-credentials@v1
