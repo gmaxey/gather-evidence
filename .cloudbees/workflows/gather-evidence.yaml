@@ -39,7 +39,7 @@ jobs:
           git add $EVIDENCE_FILE
           git config --global user.email "gregorymaxey@yahoo.com"
           git config --global user.name "Greg Maxey"
-          git commit . -m "Evidence from ${{ run_id }}"
+          git commit . -m "Evidence from ${{ cloudbees.run_id }}"
           git remote remove origin
           git remote add origin https://${{ secrets.GITHUB_TOKEN}}@github.com/gmaxey/evidence
           git push --set-upstream origin main
