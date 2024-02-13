@@ -8,7 +8,7 @@ on:
       - '**'
 
 env:
-  EVIDENCE_FILE: evidence_${{ run_id }}.html
+  EVIDENCE_FILE: evidence_${{ cloudbees.run_id }}.html
 
 jobs:
   build:
