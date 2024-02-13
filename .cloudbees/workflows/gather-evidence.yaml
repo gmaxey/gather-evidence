@@ -7,6 +7,9 @@ on:
     branches:
       - '**'
 
+env:
+  EVIDENCE_FILE: evidence_${{ run_id }}.html
+
 jobs:
   build:
     steps:
@@ -14,20 +17,29 @@ jobs:
         uses: cloudbees-io/checkout@v1
       - name: Git global credentials
         uses: cloudbees-io/configure-git-global-credentials@v1
+      - name: Clone evidence repo
+        uses: docker://alpine/git:latest
+        run: |
+          git clone https://github.com/gmaxey/evidence.git
       - name: Save evidence file
         uses: docker://bash
         run: |
-          echo Environment Variables
-          set > .cloudbees/workflows/evidence.txt
+          cd evidence
+          echo << EOF > $EVIDENCE_FILE
+          run_id  ${{ cloudbees.run_id }}
+          job.id  ${{ job.id }}
+          step.internal.id  ${{ step.internal.id }}
+          cloudbees.api.url  ${{ cloudbees.api.url }}
+          EOF
       - name: Push evidence to workflow repo
-        if: "false"
         uses: docker://alpine/git:latest
         shell: sh
         run: |
-          git add .cloudbees/workflows/evidence.txt
+          cd evidence
+          git add $EVIDENCE_FILE
           git config --global user.email "gregorymaxey@yahoo.com"
           git config --global user.name "Greg Maxey"
-          git commit . -m "some evidence"
+          git commit . -m "Evidence from ${{ run_id }}"
           git remote remove origin
           git remote add origin https://${{ secrets.GITHUB_TOKEN}}@github.com/gmaxey/evidence
           git push --set-upstream origin main
