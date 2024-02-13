@@ -17,6 +17,7 @@ jobs:
       - name: Save evidence file
         uses: docker://bash
         run: |
+          echo Environment Variables
           set > .cloudbees/workflows/evidence.txt
       - name: Push evidence to workflow repo
         uses: docker://alpine/git:latest
