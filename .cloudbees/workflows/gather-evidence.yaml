@@ -25,7 +25,7 @@ jobs:
         uses: docker://bash
         run: |
           cd evidence
-          echo << EOF > $EVIDENCE_FILE
+          cat << EOF > $EVIDENCE_FILE
           run_id  ${{ cloudbees.run_id }}
           job.id  ${{ job.id }}
           step.internal.id  ${{ step.internal.id }}
